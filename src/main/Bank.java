@@ -13,7 +13,12 @@ public class Bank {
 		privKey = 3;
 	}
 
-	public boolean verifyId(ArrayList<int[]> array, ArrayList<Integer> calculatedBs) {
+	public boolean verifyId(ArrayList<int[]> values, ArrayList<Integer> calculatedBs, ArrayList<Integer> chosenK) {
+
+		for (int i = 0; i < chosenK.size(); i++) {
+			int B = calculatedBs.get(chosenK.get(i));
+		}
+
 		return true;
 	}
 
@@ -22,7 +27,7 @@ public class Bank {
 	}
 
 	public ArrayList<Integer> chooseK(int k) {
-		
+
 		ArrayList<Integer> indices = new ArrayList<Integer>();
 
 		for (int i = 0; i > k; i++) {

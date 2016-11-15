@@ -7,7 +7,7 @@ public class User {
 	
 	private int pubKey;
 	private int privKey;
-	private int id;
+	public int id;
 	
 	Random rand = new Random();
 	
@@ -66,10 +66,10 @@ public class User {
 		return toBeSigned;
 	}
 	
-	public ArrayList<int[]> forBankToVerify(ArrayList<int[]> userQuadruples, ArrayList<Integer> choosenKs){
+	public ArrayList<int[]> forBankToVerify(ArrayList<int[]> userQuadruples, ArrayList<Integer> chosenKs){
 		ArrayList<int[]> verifyThis = new ArrayList<int[]>();
 		
-		for(int i : choosenKs){
+		for(int i : chosenKs){
 			verifyThis.add(userQuadruples.get(i));
 		}
 		
