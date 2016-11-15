@@ -15,5 +15,9 @@ public class Bank {
 	public void verifyId(ArrayList<Integer> array){
 		
 	}
+	
+	public void signCoin(){
+		
+	}
 
 }
