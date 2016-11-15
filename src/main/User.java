@@ -19,9 +19,10 @@ public class User {
 	
 	public ArrayList<int[]> generateQuadruples(int k){
 		int a, r, c, d;
-		int[] vector = new int[4];
+		
 		ArrayList<int[]> list = new ArrayList<int[]>();
 		for(int i=0; i<2*k; i++){
+			int[] vector = new int[4];
 			a = rand.nextInt(10);
 			c = rand.nextInt(10);
 			d = rand.nextInt(10);
