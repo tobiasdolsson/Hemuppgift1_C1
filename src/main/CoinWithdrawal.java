@@ -15,8 +15,9 @@ public class CoinWithdrawal {
 		ArrayList<Integer> chosenKs = bank.chooseK(k);
 		ArrayList<int[]> idsToVerify = alice.forBankToVerify(userQuadruples, chosenKs);
 	
-		if(bank.verifyId(idsToVerify, calculatedBs, chosenKs) == true){
+		if(bank.verifyId(idsToVerify, calculatedBs, chosenKs, alice.id) == true){
 			//allt är bra, signera coin
+			System.out.println("YES");
 			bank.signCoin();
 		}
 		
