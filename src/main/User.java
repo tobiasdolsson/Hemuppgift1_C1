@@ -44,18 +44,26 @@ public class User {
 		return x+y;
 	}
 	
-	public int generateCutAndChoose(ArrayList<int[]> quadruples, int i, int pubKey){
+	public ArrayList<Integer> generateCutAndChoose(ArrayList<int[]> quadruples, int pubKey){
 		int x, y, a, r, c, d, bigB;
-		a = quadruples.get(i)[0];
-		c = quadruples.get(i)[1];
-		d = quadruples.get(i)[2];
-		r = quadruples.get(i)[3];
-		x = hashFunction(a,c);
-		y = hashFunction(a+id,d);
-		quadruples.remove(i);
-		//modulo n ska in här också
-		bigB = (int)Math.pow(r, pubKey)*someOtherFunction(x,y);
-		return bigB;
+		ArrayList<Integer> toBeSigned = new ArrayList<Integer>();
+		
+		for(int i = 0; i<quadruples.size(); i++){
+			
+			a = quadruples.get(i)[0];
+			c = quadruples.get(i)[1];
+			d = quadruples.get(i)[2];
+			r = quadruples.get(i)[3];
+			x = hashFunction(a,c);
+			y = hashFunction(a+id,d);
+			
+			//modulo n ska in här också
+			bigB = (int)Math.pow(r, pubKey)*someOtherFunction(x,y);
+			toBeSigned.add(bigB);
+			
+		}
+				
+		return toBeSigned;
 	}
-
+	
 }
