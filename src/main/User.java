@@ -20,7 +20,7 @@ public class User {
 	public ArrayList<int[]> generateQuadruples(int k){
 		int a, r, c, d;
 		int[] vector = new int[4];
-		ArrayList<int[]> array = new ArrayList<int[]>();
+		ArrayList<int[]> list = new ArrayList<int[]>();
 		for(int i=0; i<2*k; i++){
 			a = rand.nextInt(10);
 			c = rand.nextInt(10);
@@ -30,9 +30,9 @@ public class User {
 			vector[1] = c;
 			vector[2] = d;
 			vector[3] = r;
-			array.add(vector);
+			list.add(vector);
 		}
-		return array;
+		return list;
 	}
 	
 	public int hashFunction(int a, int b){

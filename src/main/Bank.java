@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Bank {
 	
-	private int pubKey;
+	public int pubKey;
 	private int privKey;
 	
 	public Bank(){
@@ -12,8 +12,8 @@ public class Bank {
 		privKey = 3;
 	}
 	
-	public void verifyId(ArrayList<Integer> array){
-		
+	public boolean verifyId(ArrayList<Integer> array){
+		return true;
 	}
 	
 	public void signCoin(){
