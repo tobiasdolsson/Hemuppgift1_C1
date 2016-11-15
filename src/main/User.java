@@ -36,11 +36,11 @@ public class User {
 		return list;
 	}
 	
-	public int hashFunction(int a, int b){
+	public int hFunction(int a, int b){
 		return a*b;
 	}
 	
-	public int someOtherFunction(int x, int y){
+	public int fFunction(int x, int y){
 		return x+y;
 	}
 	
@@ -54,11 +54,11 @@ public class User {
 			c = quadruples.get(i)[1];
 			d = quadruples.get(i)[2];
 			r = quadruples.get(i)[3];
-			x = hashFunction(a,c);
-			y = hashFunction(a+id,d);
+			x = hFunction(a,c);
+			y = hFunction(a+id,d);
 			
 			//modulo n ska in här också
-			bigB = (int)Math.pow(r, pubKey)*someOtherFunction(x,y);
+			bigB = (int)Math.pow(r, pubKey)*fFunction(x,y);
 			toBeSigned.add(bigB);
 			
 		}
