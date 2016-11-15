@@ -13,7 +13,7 @@ public class Bank {
 		privKey = 3;
 	}
 
-	public boolean verifyId(ArrayList<Integer> array) {
+	public boolean verifyId(ArrayList<int[]> array, ArrayList<Integer> calculatedBs) {
 		return true;
 	}
 
@@ -21,7 +21,7 @@ public class Bank {
 
 	}
 
-	public ArrayList chooseK(int k) {
+	public ArrayList<Integer> chooseK(int k) {
 		
 		ArrayList<Integer> indices = new ArrayList<Integer>();
 

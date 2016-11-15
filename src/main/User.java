@@ -66,4 +66,15 @@ public class User {
 		return toBeSigned;
 	}
 	
+	public ArrayList<int[]> forBankToVerify(ArrayList<int[]> userQuadruples, ArrayList<Integer> choosenKs){
+		ArrayList<int[]> verifyThis = new ArrayList<int[]>();
+		
+		for(int i : choosenKs){
+			verifyThis.add(userQuadruples.get(i));
+		}
+		
+		return verifyThis;
+		
+	}
+	
 }
