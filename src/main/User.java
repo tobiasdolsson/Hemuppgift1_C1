@@ -1,5 +1,7 @@
 package main;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -37,7 +39,27 @@ public class User {
 	}
 
 	public int hFunction(int a, int b) {
-		return a * b;
+		String toHash = Integer.toBinaryString((a + b));
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			
+			e.printStackTrace();
+		}
+		md.update(toHash.getBytes());
+
+        byte byteData[] = md.digest();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < byteData.length; i++) {
+         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+        }
+
+        System.out.println("Hex format : " + sb.toString());
+		
+       // return sb.toString();
+	
+        return a * b;
 	}
 
 	public int fFunction(int x, int y) {
