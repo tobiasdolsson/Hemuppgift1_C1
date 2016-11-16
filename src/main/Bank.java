@@ -18,6 +18,7 @@ public class Bank {
 
 		for (int i = 0; i < chosenK.size(); i++) {
 			int B = calculatedBs.get(chosenK.get(i));
+			calculatedBs.set(chosenK.get(i),null);
 			int[] currentvalues = values.get(i);
 			int a = currentvalues[0];
 			int c = currentvalues[1];
@@ -37,8 +38,24 @@ public class Bank {
 			}
 
 		}
-
+		System.out.println("nu ska vi printa en lista");
+		for(int j=0; j<calculatedBs.size(); j++){
+			System.out.println(j+":  "+calculatedBs.get(j));
+		}
+		signCoin(calculatedBs);
 		return true;
+	}
+	
+	private int signCoin(ArrayList<Integer> Bs){
+		int signature=0;
+		for(int i=0; i<Bs.size(); i++){
+	
+			if(Bs.get(i)!=null){
+				signature = signature + Bs.get(i);
+			}
+		}
+		System.out.println("coin: "+signature);
+		return signature;
 	}
 
 	public int hFunction(int a, int b) {
@@ -56,13 +73,27 @@ public class Bank {
 	public ArrayList<Integer> chooseK(int k) {
 
 		ArrayList<Integer> indices = new ArrayList<Integer>();
-
+		
 		for (int i = 0; i < k; i++) {
 			Random rand = new Random();
-			int n = rand.nextInt(2 * k) + 1;
+			Boolean check = true;
+			int n = rand.nextInt(2 * k) ;
+			
+			while(check){
+				
+				if(indices.contains(n)){
+					n = rand.nextInt(2 * k) ;
+				}
+				else{
+					check = false;
+				}
+				
+			}
+		
 			indices.add(n);
 
 		}
+		System.out.println("indices "+indices.toString());
 		return indices;
 
 	}
