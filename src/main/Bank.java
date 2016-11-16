@@ -63,8 +63,9 @@ public class Bank {
 		for (int i = 0; i < Bs.size(); i++) {
 			
 			if (Bs.get(i) != null) {
+				BigInteger apa = (Bs.get(i).pow(privKey)).mod(n);
 				
-				signature = ((signature.multiply(Bs.get(i))).pow(privKey)).mod(n);
+				signature = ((signature.multiply(apa)));
 				
 			}
 		}
