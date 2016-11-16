@@ -1,5 +1,6 @@
 package main;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,7 +12,7 @@ public class CoinWithdrawal {
 		Bank bank = new Bank();
 		Random rand = new Random();
 		ArrayList<int[]> userQuadruples = alice.generateQuadruples(k);
-		ArrayList<Integer> calculatedBs = alice.generateCutAndChoose(userQuadruples, bank.pubKey);
+		ArrayList<BigInteger> calculatedBs = alice.generateCutAndChoose(userQuadruples, bank.pubKey);
 		ArrayList<Integer> chosenKs = bank.chooseK(k);
 		ArrayList<int[]> idsToVerify = alice.forBankToVerify(userQuadruples, chosenKs);
 	
