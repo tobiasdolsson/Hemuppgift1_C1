@@ -18,7 +18,7 @@ public class CoinWithdrawal {
 		if(bank.verifyId(idsToVerify, calculatedBs, chosenKs, alice.id) == true){
 			//allt är bra, signera coin
 			System.out.println("YES");
-			bank.signCoin();
+			//bank.signCoin();
 		}
 		
 	}
