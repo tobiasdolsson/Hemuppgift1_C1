@@ -9,8 +9,9 @@ import java.util.Random;
 public class User {
 
 	private int pubKey;
-	private int privKey;
+	//private int privKey;
 	public int id;
+	private int nValue;
 
 	Random rand = new Random();
 
