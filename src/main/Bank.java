@@ -8,14 +8,18 @@ import java.util.Random;
 
 public class Bank {
 
-	public int pubKey;
-	private int privKey;
-	private int nValue;
+	private BigInteger privKey;
 
-	public Bank() {
-		pubKey = 7;
-		privKey = 3;
-		nValue = 33;
+	private BigInteger pubKey;
+
+	private BigInteger n;
+
+	public Bank(BigInteger pubKey, BigInteger privKey, BigInteger n) {
+
+		this.pubKey = pubKey;
+		this.privKey = privKey;
+		this.n = n;
+
 	}
 
 	public boolean verifyId(ArrayList<int[]> values, ArrayList<BigInteger> calculatedBs, ArrayList<Integer> chosenK,
@@ -32,16 +36,15 @@ public class Bank {
 
 			BigInteger x = hFunction(a, c);
 			BigInteger y = hFunction(a + id, d);
-			
-			BigInteger rsa = new BigInteger(String.valueOf((int) Math.pow(r, pubKey)));
-			
-			BigInteger n = new BigInteger(
-					"143");
-		
-			BigInteger Bvalue = (rsa.multiply(fFunction(x, y))).mod(n);
+			BigInteger random = BigInteger.valueOf(r);
+
+			BigInteger rsa = random.pow(pubKey.intValue());
+
+			BigInteger fvalue = rsa.multiply(fFunction(x, y));
+			BigInteger Bvalue = fvalue.mod(n);
 
 			if (!Bvalue.equals(B)) {
-				
+
 				return false;
 			}
 
@@ -57,16 +60,14 @@ public class Bank {
 
 	private BigInteger signCoin(ArrayList<BigInteger> Bs) {
 		BigInteger signature = new BigInteger("1");
-		BigInteger n = new BigInteger(
-				"143");
-		
+
 		for (int i = 0; i < Bs.size(); i++) {
-			
+
 			if (Bs.get(i) != null) {
-				BigInteger apa = (Bs.get(i).pow(privKey)).mod(n);
-				
+				BigInteger apa = (Bs.get(i).pow(privKey.intValue())).mod(n);
+
 				signature = ((signature.multiply(apa)));
-				
+
 			}
 		}
 		System.out.println("coin: " + signature);

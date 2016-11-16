@@ -8,18 +8,20 @@ import java.util.Random;
 
 public class User {
 
-	private int pubKey;
-	//private int privKey;
+	
 	public int id;
-	private int nValue;
+	private BigInteger pubKey;
+	private BigInteger n;
 
 	Random rand = new Random();
 
-	public User(int id) {
+	public User(int id, BigInteger pubKey, BigInteger n) {
 		this.id = id;
-		pubKey = 7;
-
+		this.pubKey = pubKey;
+		this.n = n;
 	}
+
+	
 
 	public ArrayList<int[]> generateQuadruples(int k) {
 		int a, r, c, d;
@@ -27,14 +29,14 @@ public class User {
 		ArrayList<int[]> list = new ArrayList<int[]>();
 		for (int i = 0; i < 2 * k; i++) {
 			int[] vector = new int[4];
-			a = rand.nextInt(10) + 1;
-			c = rand.nextInt(10) + 1;
-			d = rand.nextInt(10) + 1;
-			r = rand.nextInt(10) + 1;
+			a = rand.nextInt(100);
+			c = rand.nextInt(100);
+			d = rand.nextInt(100);
+			r = rand.nextInt(100);
 			vector[0] = a;
 			vector[1] = c;
 			vector[2] = d;
-			vector[3] = r;
+			vector[3] = r + 1;
 			list.add(vector);
 		}
 		return list;
@@ -70,7 +72,7 @@ public class User {
 
 	}
 
-	public ArrayList<BigInteger> generateCutAndChoose(ArrayList<int[]> quadruples, int pubKey) {
+	public ArrayList<BigInteger> generateCutAndChoose(ArrayList<int[]> quadruples) {
 		int a, r, c, d;
 		BigInteger x, y, bigB;
 		ArrayList<BigInteger> toBeSigned = new ArrayList<BigInteger>();
@@ -83,17 +85,18 @@ public class User {
 			r = quadruples.get(i)[3];
 			x = hFunction(a, c);
 			y = hFunction(a + id, d);
+			
+			BigInteger random = BigInteger.valueOf(r);
 
-			// modulo n ska in här också
-			BigInteger rsa = new BigInteger(String.valueOf((int) Math.pow(r, pubKey)));
+			BigInteger rsa =  random.pow(pubKey.intValue());
 
-			BigInteger n = new BigInteger(
-					"143");
-			//System.out.println((rsa.multiply(fFunction(x, y))));
+		
 
-			bigB = (rsa.multiply(fFunction(x, y))).mod(n);
-			 System.out.println(bigB.toString());
-
+			// System.out.println((rsa.multiply(fFunction(x, y))));
+			BigInteger fvalue = rsa.multiply(fFunction(x, y));
+			bigB = fvalue.mod(n);
+			System.out.println(bigB.toString());
+			System.out.println("----");
 			toBeSigned.add(bigB);
 
 		}
