@@ -1,5 +1,6 @@
 package main;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -15,56 +16,58 @@ public class Bank {
 		privKey = 3;
 	}
 
-	public boolean verifyId(ArrayList<int[]> values, ArrayList<Integer> calculatedBs, ArrayList<Integer> chosenK,
+	public boolean verifyId(ArrayList<int[]> values, ArrayList<BigInteger> calculatedBs, ArrayList<Integer> chosenK,
 			int id) {
 
 		for (int i = 0; i < chosenK.size(); i++) {
-			int B = calculatedBs.get(chosenK.get(i));
-			calculatedBs.set(chosenK.get(i),null);
+			BigInteger B = calculatedBs.get(chosenK.get(i));
+			calculatedBs.set(chosenK.get(i), null);
 			int[] currentvalues = values.get(i);
 			int a = currentvalues[0];
 			int c = currentvalues[1];
 			int d = currentvalues[2];
 			int r = currentvalues[3];
 
-			int x = hFunction(a, c);
-			int y = hFunction(a + id, d);
+			BigInteger x = hFunction(a, c);
+			BigInteger y = hFunction(a + id, d);
 
-			int Bvalue = (int) Math.pow(r, pubKey) * fFunction(x, y);
-			System.out.println(B);
-			System.out.println(Bvalue);
-			System.out.println("----");
+			BigInteger rsa = new BigInteger(String.valueOf((int) Math.pow(r, pubKey)));
 
-			if (Bvalue != B) {
+			BigInteger n = new BigInteger("33");
+
+			BigInteger Bvalue = (rsa.multiply(fFunction(x, y))).mod(n);
+
+			if (!Bvalue.equals(B)) {
 				return false;
 			}
 
 		}
-		System.out.println("nu ska vi printa en lista");
-		for(int j=0; j<calculatedBs.size(); j++){
-			System.out.println(j+":  "+calculatedBs.get(j));
-		}
+		/*
+		 * System.out.println("nu ska vi printa en lista"); for(int j=0;
+		 * j<calculatedBs.size(); j++){
+		 * System.out.println(j+":  "+calculatedBs.get(j)); }
+		 */
 		signCoin(calculatedBs);
 		return true;
 	}
-	
-	private int signCoin(ArrayList<Integer> Bs){
-		int signature=0;
-		for(int i=0; i<Bs.size(); i++){
-	
-			if(Bs.get(i)!=null){
-				signature = signature + Bs.get(i);
+
+	private BigInteger signCoin(ArrayList<BigInteger> Bs) {
+		BigInteger signature = new BigInteger("1");
+		for (int i = 0; i < Bs.size(); i++) {
+
+			if (Bs.get(i) != null) {
+				signature = signature.multiply(Bs.get(i));
 			}
 		}
-		System.out.println("coin: "+signature);
+		System.out.println("coin: " + signature);
 		return signature;
 	}
 
-	public int hFunction(int a, int b) {
+	public BigInteger hFunction(int a, int b) {
 		String toHash = Integer.toBinaryString((a + b));
 		MessageDigest md = null;
 		try {
-			md = MessageDigest.getInstance("SHA-256");
+			md = MessageDigest.getInstance("SHA-1");
 		} catch (NoSuchAlgorithmException e) {
 
 			e.printStackTrace();
@@ -77,45 +80,42 @@ public class Bank {
 			sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
 		}
 
-		System.out.println("Hex format : " + sb.toString());
+		BigInteger value = new BigInteger(sb.toString(), 16);
 
 		// return sb.toString();
-		return a * b;
+		// return a * b;
+		return value;
 	}
 
-	public int fFunction(int x, int y) {
-		return x + y;
+	public BigInteger fFunction(BigInteger x, BigInteger y) {
+		return x.xor(y);
 
 	}
 
-	public void signCoin() {
-
-	}
 
 	public ArrayList<Integer> chooseK(int k) {
 
 		ArrayList<Integer> indices = new ArrayList<Integer>();
-		
+
 		for (int i = 0; i < k; i++) {
 			Random rand = new Random();
 			Boolean check = true;
-			int n = rand.nextInt(2 * k) ;
-			
-			while(check){
-				
-				if(indices.contains(n)){
-					n = rand.nextInt(2 * k) ;
-				}
-				else{
+			int n = rand.nextInt(2 * k);
+
+			while (check) {
+
+				if (indices.contains(n)) {
+					n = rand.nextInt(2 * k);
+				} else {
 					check = false;
 				}
-				
+
 			}
-		
+
 			indices.add(n);
 
 		}
-		System.out.println("indices "+indices.toString());
+		
 		return indices;
 
 	}

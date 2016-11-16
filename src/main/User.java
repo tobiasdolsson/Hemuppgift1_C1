@@ -1,5 +1,6 @@
 package main;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -15,8 +16,8 @@ public class User {
 
 	public User(int id) {
 		this.id = id;
-		pubKey = 3;
-		privKey = 3;
+		pubKey = 7;
+		
 	}
 
 	public ArrayList<int[]> generateQuadruples(int k) {
@@ -25,10 +26,10 @@ public class User {
 		ArrayList<int[]> list = new ArrayList<int[]>();
 		for (int i = 0; i < 2 * k; i++) {
 			int[] vector = new int[4];
-			a = rand.nextInt(10);
-			c = rand.nextInt(10);
-			d = rand.nextInt(10);
-			r = rand.nextInt(10);
+			a = rand.nextInt(10) + 1;
+			c = rand.nextInt(10) + 1;
+			d = rand.nextInt(10) + 1;
+			r = rand.nextInt(10) + 1;
 			vector[0] = a;
 			vector[1] = c;
 			vector[2] = d;
@@ -38,37 +39,43 @@ public class User {
 		return list;
 	}
 
-	public int hFunction(int a, int b) {
+	public BigInteger hFunction(int a, int b) {
 		String toHash = Integer.toBinaryString((a + b));
 		MessageDigest md = null;
 		try {
-			md = MessageDigest.getInstance("SHA-256");
+			md = MessageDigest.getInstance("SHA-1");
 		} catch (NoSuchAlgorithmException e) {
-			
+
 			e.printStackTrace();
 		}
 		md.update(toHash.getBytes());
 
-        byte byteData[] = md.digest();
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < byteData.length; i++) {
-         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-        }
+		byte byteData[] = md.digest();
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < byteData.length; i++) {
+			sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+		}
 
-        System.out.println("Hex format : " + sb.toString());
+		BigInteger value = new BigInteger(sb.toString(), 16);
+
 		
-       // return sb.toString();
-	
-        return a * b;
+		// return sb.toString();
+		return value;
+		//return a * b;
 	}
 
-	public int fFunction(int x, int y) {
-		return x + y;
+	public BigInteger fFunction(BigInteger x, BigInteger y) {
+		
+		return x.xor(y);
+		
+
+
 	}
 
-	public ArrayList<Integer> generateCutAndChoose(ArrayList<int[]> quadruples, int pubKey) {
-		int x, y, a, r, c, d, bigB;
-		ArrayList<Integer> toBeSigned = new ArrayList<Integer>();
+	public ArrayList<BigInteger> generateCutAndChoose(ArrayList<int[]> quadruples, int pubKey) {
+		int  a, r, c, d;
+		BigInteger x, y, bigB;
+		ArrayList<BigInteger> toBeSigned = new ArrayList<BigInteger>();
 
 		for (int i = 0; i < quadruples.size(); i++) {
 
@@ -80,7 +87,12 @@ public class User {
 			y = hFunction(a + id, d);
 
 			// modulo n ska in här också
-			bigB = (int) Math.pow(r, pubKey) * fFunction(x, y);
+			BigInteger rsa = new BigInteger(String.valueOf((int)Math.pow(r, pubKey)));
+			
+			BigInteger n = new BigInteger("33");
+			
+			bigB =  (rsa.multiply(fFunction(x, y))).mod(n);
+			System.out.println(bigB.toString());
 
 			toBeSigned.add(bigB);
 
@@ -92,8 +104,8 @@ public class User {
 	public ArrayList<int[]> forBankToVerify(ArrayList<int[]> userQuadruples, ArrayList<Integer> chosenKs) {
 		ArrayList<int[]> verifyThis = new ArrayList<int[]>();
 
-		for (int i : chosenKs) {	
-			System.out.println(i);
+		for (int i : chosenKs) {
+		
 			verifyThis.add(userQuadruples.get(i));
 		}
 
