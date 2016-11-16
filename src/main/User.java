@@ -8,15 +8,17 @@ import java.util.Random;
 public class User {
 
 	private int pubKey;
-	private int privKey;
+	//private int privKey;
 	public int id;
+	private int nValue;
 
 	Random rand = new Random();
 
 	public User(int id) {
 		this.id = id;
-		pubKey = 3;
-		privKey = 3;
+		pubKey = 7;
+		nValue = 33;
+		//privKey = 3;
 	}
 
 	public ArrayList<int[]> generateQuadruples(int k) {

@@ -9,10 +9,12 @@ public class Bank {
 
 	public int pubKey;
 	private int privKey;
+	private int nValue;
 
 	public Bank() {
-		pubKey = 3;
+		pubKey = 7;
 		privKey = 3;
+		nValue = 33;
 	}
 
 	public boolean verifyId(ArrayList<int[]> values, ArrayList<Integer> calculatedBs, ArrayList<Integer> chosenK,
