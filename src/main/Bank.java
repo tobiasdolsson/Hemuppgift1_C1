@@ -12,8 +12,8 @@ public class Bank {
 	private int privKey;
 
 	public Bank() {
-		pubKey = 3;
-		privKey = 3;
+		pubKey = 7;
+		privKey = 103;
 	}
 
 	public boolean verifyId(ArrayList<int[]> values, ArrayList<BigInteger> calculatedBs, ArrayList<Integer> chosenK,
@@ -30,14 +30,16 @@ public class Bank {
 
 			BigInteger x = hFunction(a, c);
 			BigInteger y = hFunction(a + id, d);
-
+			
 			BigInteger rsa = new BigInteger(String.valueOf((int) Math.pow(r, pubKey)));
-
-			BigInteger n = new BigInteger("33");
-
+			
+			BigInteger n = new BigInteger(
+					"143");
+		
 			BigInteger Bvalue = (rsa.multiply(fFunction(x, y))).mod(n);
 
 			if (!Bvalue.equals(B)) {
+				
 				return false;
 			}
 
@@ -53,10 +55,15 @@ public class Bank {
 
 	private BigInteger signCoin(ArrayList<BigInteger> Bs) {
 		BigInteger signature = new BigInteger("1");
+		BigInteger n = new BigInteger(
+				"143");
+		
 		for (int i = 0; i < Bs.size(); i++) {
-
+			
 			if (Bs.get(i) != null) {
-				signature = signature.multiply(Bs.get(i));
+				
+				signature = ((signature.multiply(Bs.get(i))).pow(privKey)).mod(n);
+				
 			}
 		}
 		System.out.println("coin: " + signature);
@@ -92,7 +99,6 @@ public class Bank {
 
 	}
 
-
 	public ArrayList<Integer> chooseK(int k) {
 
 		ArrayList<Integer> indices = new ArrayList<Integer>();
@@ -115,7 +121,7 @@ public class Bank {
 			indices.add(n);
 
 		}
-		
+
 		return indices;
 
 	}

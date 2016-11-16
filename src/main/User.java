@@ -17,7 +17,7 @@ public class User {
 	public User(int id) {
 		this.id = id;
 		pubKey = 7;
-		
+
 	}
 
 	public ArrayList<int[]> generateQuadruples(int k) {
@@ -58,22 +58,19 @@ public class User {
 
 		BigInteger value = new BigInteger(sb.toString(), 16);
 
-		
 		// return sb.toString();
 		return value;
-		//return a * b;
+		// return a * b;
 	}
 
 	public BigInteger fFunction(BigInteger x, BigInteger y) {
-		
-		return x.xor(y);
-		
 
+		return x.xor(y);
 
 	}
 
 	public ArrayList<BigInteger> generateCutAndChoose(ArrayList<int[]> quadruples, int pubKey) {
-		int  a, r, c, d;
+		int a, r, c, d;
 		BigInteger x, y, bigB;
 		ArrayList<BigInteger> toBeSigned = new ArrayList<BigInteger>();
 
@@ -87,12 +84,14 @@ public class User {
 			y = hFunction(a + id, d);
 
 			// modulo n ska in här också
-			BigInteger rsa = new BigInteger(String.valueOf((int)Math.pow(r, pubKey)));
-			
-			BigInteger n = new BigInteger("33");
-			
-			bigB =  (rsa.multiply(fFunction(x, y))).mod(n);
-			System.out.println(bigB.toString());
+			BigInteger rsa = new BigInteger(String.valueOf((int) Math.pow(r, pubKey)));
+
+			BigInteger n = new BigInteger(
+					"143");
+			//System.out.println((rsa.multiply(fFunction(x, y))));
+
+			bigB = (rsa.multiply(fFunction(x, y))).mod(n);
+			 System.out.println(bigB.toString());
 
 			toBeSigned.add(bigB);
 
@@ -105,7 +104,7 @@ public class User {
 		ArrayList<int[]> verifyThis = new ArrayList<int[]>();
 
 		for (int i : chosenKs) {
-		
+
 			verifyThis.add(userQuadruples.get(i));
 		}
 
