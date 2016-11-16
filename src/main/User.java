@@ -88,12 +88,12 @@ public class User {
 			
 			BigInteger random = BigInteger.valueOf(r);
 
-			BigInteger rsa =  random.pow(pubKey.intValue());
+			BigInteger temp =  random.pow(pubKey.intValue());
 
 		
 
 			// System.out.println((rsa.multiply(fFunction(x, y))));
-			BigInteger fvalue = rsa.multiply(fFunction(x, y));
+			BigInteger fvalue = temp.multiply(fFunction(x, y));
 			bigB = fvalue.mod(n);
 			System.out.println(bigB.toString());
 			System.out.println("----");

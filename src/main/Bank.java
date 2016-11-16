@@ -70,7 +70,7 @@ public class Bank {
 
 			}
 		}
-		System.out.println("coin: " + signature);
+		System.out.println("Signed coin from bank: " + signature);
 		return signature;
 	}
 
