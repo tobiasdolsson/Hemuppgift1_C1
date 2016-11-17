@@ -78,8 +78,12 @@ public class User {
 		int a, r, c, d;
 		BigInteger x, y, bigB;
 		ArrayList<BigInteger> toBeSigned = new ArrayList<BigInteger>();
-
+		System.out.print("Loading");
 		for (int i = 0; i < quadruples.size(); i++) {
+			
+			if(i % 10 == 0){
+				System.out.print(".");
+			}
 
 			a = quadruples.get(i)[0];
 			c = quadruples.get(i)[1];
@@ -94,6 +98,7 @@ public class User {
 
 			// System.out.println((rsa.multiply(fFunction(x, y))));
 			BigInteger fvalue = temp.multiply(fFunction(x, y));
+			
 			bigB = fvalue.mod(n);
 			// System.out.println(bigB.toString());
 			// System.out.println("----");

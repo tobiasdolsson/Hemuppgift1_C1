@@ -12,10 +12,10 @@ public class RSA {
 
 	public RSA() {
 
-		int SIZE = 8;
+		int keySize = 8;
 
-		p = new BigInteger(SIZE, 15, new Random());
-		q = new BigInteger(SIZE, 15, new Random());
+		p = new BigInteger(keySize, 15, new Random());
+		q = new BigInteger(keySize, 15, new Random());
 
 		n = p.multiply(q);
 
@@ -23,7 +23,7 @@ public class RSA {
 		PhiN = PhiN.multiply(q.subtract(BigInteger.valueOf(1)));
 
 		do {
-			pubKey = new BigInteger(2 * SIZE, new Random());
+			pubKey = new BigInteger(2 * keySize, new Random());
 
 		} while ((pubKey.compareTo(PhiN) != 1) || (pubKey.gcd(PhiN).compareTo(BigInteger.valueOf(1)) != 0));
 

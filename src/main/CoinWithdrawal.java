@@ -10,7 +10,7 @@ import main.User;
 public class CoinWithdrawal {
 
 	public static void main(String args[]) {
-		int k = 10;
+		int k = 100;
 
 		RSA rsa = new RSA();
 		BigInteger pubKey = rsa.getPubKey();
@@ -31,7 +31,7 @@ public class CoinWithdrawal {
 
 		if (bank.verifyAndSign(idsToVerify, calculatedBs, chosenKs, alice.id) == true) {
 			
-			System.out.println("Time to extract!");
+			
 
 			//bank.signCoin();
 			BigInteger signedCoin = bank.handOutCoin();

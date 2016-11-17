@@ -13,12 +13,10 @@ public class Bank {
 	private BigInteger pubKey;
 
 	private BigInteger n;
-	
 
 	private BigInteger signedCoin;
 
 	private ArrayList<Integer> rIndex;
-
 
 	public Bank(BigInteger pubKey, BigInteger privKey, BigInteger n) {
 		rIndex = new ArrayList<Integer>();
@@ -28,9 +26,9 @@ public class Bank {
 
 	}
 
-	public boolean verifyAndSign(ArrayList<int[]> values, ArrayList<BigInteger> calculatedBs, ArrayList<Integer> chosenK,
-			int id) {
-
+	public boolean verifyAndSign(ArrayList<int[]> values, ArrayList<BigInteger> calculatedBs,
+			ArrayList<Integer> chosenK, int id) {
+			
 		for (int i = 0; i < chosenK.size(); i++) {
 			BigInteger B = calculatedBs.get(chosenK.get(i));
 			calculatedBs.set(chosenK.get(i), null);
@@ -39,7 +37,10 @@ public class Bank {
 			int c = currentvalues[1];
 			int d = currentvalues[2];
 			int r = currentvalues[3];
-
+			
+			if(i % 10 == 0){
+				System.out.print(".");
+			}
 			BigInteger x = hFunction(a, c);
 			BigInteger y = hFunction(a + id, d);
 			BigInteger random = BigInteger.valueOf(r);
@@ -61,6 +62,7 @@ public class Bank {
 		 * j<calculatedBs.size(); j++){
 		 * System.out.println(j+":  "+calculatedBs.get(j)); }
 		 */
+		
 		signedCoin = signCoin(calculatedBs);
 
 		return true;
@@ -70,9 +72,13 @@ public class Bank {
 		BigInteger signature = new BigInteger("1");
 
 		for (int i = 0; i < Bs.size(); i++) {
+			
+			if(i % 10 == 0){
+				System.out.print(".");
+			}
 
 			if (Bs.get(i) != null) {
-			
+
 				rIndex.add(i);
 				BigInteger sig = (Bs.get(i).pow(privKey.intValue())).mod(n);
 
@@ -80,6 +86,7 @@ public class Bank {
 
 			}
 		}
+		System.out.println("Completed");
 		System.out.println("Signed coin from bank: " + signature);
 		return signature;
 	}
@@ -139,14 +146,13 @@ public class Bank {
 		return indices;
 
 	}
-	
 
-	public BigInteger handOutCoin(){
+	public BigInteger handOutCoin() {
 		return signedCoin;
 	}
 
-	public ArrayList<Integer> getrIndex(){
-		
+	public ArrayList<Integer> getrIndex() {
+
 		return rIndex;
 
 	}
