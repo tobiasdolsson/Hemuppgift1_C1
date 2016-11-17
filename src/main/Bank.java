@@ -14,17 +14,21 @@ public class Bank {
 
 	private BigInteger n;
 	
+
 	private BigInteger signedCoin;
 
-	public Bank(BigInteger pubKey, BigInteger privKey, BigInteger n) {
+	private ArrayList<Integer> rIndex;
 
+
+	public Bank(BigInteger pubKey, BigInteger privKey, BigInteger n) {
+		rIndex = new ArrayList<Integer>();
 		this.pubKey = pubKey;
 		this.privKey = privKey;
 		this.n = n;
 
 	}
 
-	public boolean verifyId(ArrayList<int[]> values, ArrayList<BigInteger> calculatedBs, ArrayList<Integer> chosenK,
+	public boolean verifyAndSign(ArrayList<int[]> values, ArrayList<BigInteger> calculatedBs, ArrayList<Integer> chosenK,
 			int id) {
 
 		for (int i = 0; i < chosenK.size(); i++) {
@@ -51,12 +55,14 @@ public class Bank {
 			}
 
 		}
+
 		/*
 		 * System.out.println("nu ska vi printa en lista"); for(int j=0;
 		 * j<calculatedBs.size(); j++){
 		 * System.out.println(j+":  "+calculatedBs.get(j)); }
 		 */
 		signedCoin = signCoin(calculatedBs);
+
 		return true;
 	}
 
@@ -66,9 +72,11 @@ public class Bank {
 		for (int i = 0; i < Bs.size(); i++) {
 
 			if (Bs.get(i) != null) {
-				BigInteger apa = (Bs.get(i).pow(privKey.intValue())).mod(n);
+			
+				rIndex.add(i);
+				BigInteger sig = (Bs.get(i).pow(privKey.intValue())).mod(n);
 
-				signature = ((signature.multiply(apa)));
+				signature = ((signature.multiply(sig)));
 
 			}
 		}
@@ -132,8 +140,15 @@ public class Bank {
 
 	}
 	
+
 	public BigInteger handOutCoin(){
 		return signedCoin;
+	}
+
+	public ArrayList<Integer> getrIndex(){
+		
+		return rIndex;
+
 	}
 
 }

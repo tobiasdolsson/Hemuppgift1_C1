@@ -8,7 +8,6 @@ import java.util.Random;
 
 public class User {
 
-	
 	public int id;
 	private BigInteger pubKey;
 	private BigInteger n;
@@ -23,11 +22,9 @@ public class User {
 		rValues = new ArrayList<Integer>();
 	}
 
-	
-
 	public ArrayList<int[]> generateQuadruples(int k) {
 		int a, r, c, d;
-
+		rValues = new ArrayList<Integer>();
 		ArrayList<int[]> list = new ArrayList<int[]>();
 		for (int i = 0; i < 2 * k; i++) {
 			int[] vector = new int[4];
@@ -39,7 +36,9 @@ public class User {
 			vector[1] = c;
 			vector[2] = d;
 			vector[3] = r + 1;
+
 			rValues.add(r+1);
+
 			list.add(vector);
 		}
 		return list;
@@ -75,7 +74,7 @@ public class User {
 
 	}
 
-	public ArrayList<BigInteger> generateCutAndChoose(ArrayList<int[]> quadruples) {
+	public ArrayList<BigInteger> caluclateBs(ArrayList<int[]> quadruples) {
 		int a, r, c, d;
 		BigInteger x, y, bigB;
 		ArrayList<BigInteger> toBeSigned = new ArrayList<BigInteger>();
@@ -88,18 +87,16 @@ public class User {
 			r = quadruples.get(i)[3];
 			x = hFunction(a, c);
 			y = hFunction(a + id, d);
-			
+
 			BigInteger random = BigInteger.valueOf(r);
 
-			BigInteger temp =  random.pow(pubKey.intValue());
-
-		
+			BigInteger temp = random.pow(pubKey.intValue());
 
 			// System.out.println((rsa.multiply(fFunction(x, y))));
 			BigInteger fvalue = temp.multiply(fFunction(x, y));
 			bigB = fvalue.mod(n);
-			System.out.println(bigB.toString());
-			System.out.println("----");
+			// System.out.println(bigB.toString());
+			// System.out.println("----");
 			toBeSigned.add(bigB);
 
 		}
@@ -128,6 +125,22 @@ public class User {
 		
 		return coin.divide(totalValue);
 		
+	}
+
+	public ArrayList<Integer> getCorrectR(ArrayList<Integer> index, ArrayList<int[]> userQuadruples) {
+		ArrayList<Integer> correctR = new ArrayList<Integer>();
+		for (int i : index) {
+			int[] values = userQuadruples.get(index.get(i));
+			
+			correctR.add(values[3]);
+			System.out.println(values[3]);
+			
+			
+
+		}
+
+		return null;
+
 	}
 
 }

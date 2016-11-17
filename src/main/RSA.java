@@ -11,7 +11,7 @@ public class RSA {
 	private BigInteger n;
 
 	public RSA() {
-		
+
 		int SIZE = 8;
 
 		p = new BigInteger(SIZE, 15, new Random());
@@ -19,7 +19,7 @@ public class RSA {
 
 		n = p.multiply(q);
 
-		PhiN = p.subtract(BigInteger.valueOf(1));
+		PhiN = p.subtract(BigInteger.ONE);
 		PhiN = PhiN.multiply(q.subtract(BigInteger.valueOf(1)));
 
 		do {
