@@ -24,29 +24,16 @@ public class CoinWithdrawal {
 		User alice = new User(1991, pubKey, n);
 		Bank bank = new Bank(pubKey, privKey, n);
 		ArrayList<int[]> userQuadruples = alice.generateQuadruples(k);
-
 		ArrayList<BigInteger> calculatedBs = alice.caluclateBs(userQuadruples);
 		ArrayList<Integer> chosenKs = bank.chooseK(k);
 		ArrayList<int[]> idsToVerify = alice.forBankToVerify(userQuadruples, chosenKs);
 
 		if (bank.verifyAndSign(idsToVerify, calculatedBs, chosenKs, alice.id) == true) {
 			
-			
-
-			//bank.signCoin();
 			BigInteger signedCoin = bank.handOutCoin();
 			ArrayList<Integer> rIndeces = bank.getrIndex();
 			BigInteger extractedCoin = alice.extractCoin(rIndeces, signedCoin);
 			System.out.println("Extracted coin: "+ extractedCoin);
-
-			
-			/*ArrayList<Integer> correctR = alice.getCorrectR(rIndex, userQuadruples);
-			
-			for(int i : correctR){
-				System.out.println(i);
-			}
-			*/
-			// bank.signCoin();
 
 		}
 

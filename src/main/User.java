@@ -12,6 +12,8 @@ public class User {
 	private BigInteger pubKey;
 	private BigInteger n;
 	private ArrayList<Integer> rValues;
+	private ArrayList<Integer> rIndex;
+	private ArrayList<BigInteger> fxy;
 
 	Random rand = new Random();
 
@@ -20,6 +22,7 @@ public class User {
 		this.pubKey = pubKey;
 		this.n = n;
 		rValues = new ArrayList<Integer>();
+		fxy = new ArrayList<BigInteger>();
 	}
 
 	public ArrayList<int[]> generateQuadruples(int k) {
@@ -32,12 +35,24 @@ public class User {
 			c = rand.nextInt(100);
 			d = rand.nextInt(100);
 			r = rand.nextInt(100);
+			//Kolla relativt primiskt
+			BigInteger rnbr;
+			while(true){
+				
+				rnbr = new BigInteger(n.bitLength(), new Random());
+				if(rnbr.compareTo(n)<0 && rnbr.gcd(n).equals(BigInteger.valueOf(1))){
+					System.out.println("r value"+rnbr);
+					break;
+				}
+			}
+			
+			
 			vector[0] = a;
 			vector[1] = c;
 			vector[2] = d;
-			vector[3] = r + 1;
+			vector[3] = rnbr.intValue();
 
-			rValues.add(r+1);
+			rValues.add(rnbr.intValue());
 
 			list.add(vector);
 		}
@@ -98,6 +113,7 @@ public class User {
 
 			// System.out.println((rsa.multiply(fFunction(x, y))));
 			BigInteger fvalue = temp.multiply(fFunction(x, y));
+			fxy.add(fFunction(x, y));
 			
 			bigB = fvalue.mod(n);
 			// System.out.println(bigB.toString());
@@ -123,12 +139,19 @@ public class User {
 	
 	public BigInteger extractCoin(ArrayList<Integer> rIndeces, BigInteger coin){
 		BigInteger totalValue = new BigInteger("1");
+		BigInteger totalFxy = new BigInteger("1");
 		for(int i=0; i<rIndeces.size(); i++){
-			BigInteger mulValue = BigInteger.valueOf(rValues.get(rIndeces.get(i)));
-			totalValue = totalValue.multiply(mulValue);
+			totalFxy = totalFxy.multiply(fxy.get(rIndeces.get(i)));
+			BigInteger mulValue = BigInteger.valueOf(rValues.get(rIndeces.get(i)));			
+			totalValue = totalValue.multiply(mulValue.modInverse(n));
+			
 		}
-		
-		return coin.divide(totalValue);
+		totalFxy = totalFxy.mod(n);
+		System.out.println("TotalFXY:" +totalFxy);
+		BigInteger extractedCoin = coin.multiply(totalValue).mod(n);
+		BigInteger product = extractedCoin.pow(pubKey.intValue()).mod(n);
+		System.out.println("f av x,y:"+product);
+		return extractedCoin;
 		
 	}
 
