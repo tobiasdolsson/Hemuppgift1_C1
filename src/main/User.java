@@ -12,6 +12,7 @@ public class User {
 	public int id;
 	private BigInteger pubKey;
 	private BigInteger n;
+	private ArrayList<Integer> rValues;
 
 	Random rand = new Random();
 
@@ -19,6 +20,7 @@ public class User {
 		this.id = id;
 		this.pubKey = pubKey;
 		this.n = n;
+		rValues = new ArrayList<Integer>();
 	}
 
 	
@@ -37,6 +39,7 @@ public class User {
 			vector[1] = c;
 			vector[2] = d;
 			vector[3] = r + 1;
+			rValues.add(r+1);
 			list.add(vector);
 		}
 		return list;
@@ -114,6 +117,17 @@ public class User {
 
 		return verifyThis;
 
+	}
+	
+	public BigInteger extractCoin(ArrayList<Integer> rIndeces, BigInteger coin){
+		BigInteger totalValue = new BigInteger("1");
+		for(int i=0; i<rIndeces.size(); i++){
+			BigInteger mulValue = BigInteger.valueOf(rValues.get(rIndeces.get(i)));
+			totalValue = totalValue.multiply(mulValue);
+		}
+		
+		return coin.divide(totalValue);
+		
 	}
 
 }

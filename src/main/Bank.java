@@ -13,6 +13,8 @@ public class Bank {
 	private BigInteger pubKey;
 
 	private BigInteger n;
+	
+	private BigInteger signedCoin;
 
 	public Bank(BigInteger pubKey, BigInteger privKey, BigInteger n) {
 
@@ -54,7 +56,7 @@ public class Bank {
 		 * j<calculatedBs.size(); j++){
 		 * System.out.println(j+":  "+calculatedBs.get(j)); }
 		 */
-		signCoin(calculatedBs);
+		signedCoin = signCoin(calculatedBs);
 		return true;
 	}
 
@@ -128,6 +130,10 @@ public class Bank {
 
 		return indices;
 
+	}
+	
+	public BigInteger handOutCoin(){
+		return signedCoin;
 	}
 
 }

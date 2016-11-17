@@ -4,6 +4,9 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Random;
 
+import main.Bank;
+import main.User;
+
 public class CoinWithdrawal {
 			
 	public static void main(String args[]){
@@ -27,6 +30,10 @@ public class CoinWithdrawal {
 			//allt är bra, signera coin
 			System.out.println("Time to extract!");
 			//bank.signCoin();
+			BigInteger signedCoin = bank.handOutCoin();
+			ArrayList<Integer> rIndeces = new ArrayList<Integer>();
+			BigInteger extractedCoin = alice.extractCoin(rIndeces, signedCoin);
+			System.out.println(extractedCoin);
 		}
 		
 	}
