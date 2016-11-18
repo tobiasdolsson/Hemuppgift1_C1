@@ -85,7 +85,7 @@ public class User {
 
 	public BigInteger fFunction(BigInteger x, BigInteger y) {
 
-		return x.xor(y);
+		return (x.xor(y)).mod(n);
 
 	}
 
