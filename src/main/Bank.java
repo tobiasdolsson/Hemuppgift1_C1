@@ -42,7 +42,7 @@ public class Bank {
 				System.out.print(".");
 			}
 			BigInteger x = hFunction(a, c);
-			BigInteger y = hFunction(a + id, d);
+			BigInteger y = hFunction((a ^ id), d);
 			BigInteger random = BigInteger.valueOf(r);
 
 			BigInteger rsa = random.pow(pubKey.intValue());

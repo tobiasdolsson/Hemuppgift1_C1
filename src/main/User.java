@@ -41,7 +41,7 @@ public class User {
 				
 				rnbr = new BigInteger(n.bitLength(), new Random());
 				if(rnbr.compareTo(n)<0 && rnbr.gcd(n).equals(BigInteger.valueOf(1))){
-					System.out.println("r value"+rnbr);
+					//System.out.println("r value"+rnbr);
 					break;
 				}
 			}
@@ -105,7 +105,7 @@ public class User {
 			d = quadruples.get(i)[2];
 			r = quadruples.get(i)[3];
 			x = hFunction(a, c);
-			y = hFunction(a + id, d);
+			y = hFunction((a ^ id), d);
 
 			BigInteger random = BigInteger.valueOf(r);
 

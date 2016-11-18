@@ -10,9 +10,9 @@ import main.User;
 public class CoinWithdrawal {
 
 	public static void main(String args[]) {
-		int k = 100;
+		int k = 10;
 
-		RSA rsa = new RSA();
+		RSA rsa = new RSA(8);
 		BigInteger pubKey = rsa.getPubKey();
 		BigInteger privKey = rsa.getPrivKey();
 		BigInteger n = rsa.getN();

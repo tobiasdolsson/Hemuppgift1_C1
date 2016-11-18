@@ -7,27 +7,29 @@ public class RSA {
 	private BigInteger privKey;
 	private BigInteger p, q;
 	private BigInteger pubKey;
-	private BigInteger PhiN;
+	private BigInteger phi;
 	private BigInteger n;
+	private int keySize;
 
-	public RSA() {
+	public RSA(int keySize) {
 
-		int keySize = 8;
+		this.keySize = keySize;
 
 		p = new BigInteger(keySize, 15, new Random());
 		q = new BigInteger(keySize, 15, new Random());
-
 		n = p.multiply(q);
 
-		PhiN = p.subtract(BigInteger.ONE);
-		PhiN = PhiN.multiply(q.subtract(BigInteger.valueOf(1)));
+		phi = p.subtract(BigInteger.ONE);
+		phi = phi.multiply(q.subtract(BigInteger.valueOf(1)));
 
 		do {
 			pubKey = new BigInteger(2 * keySize, new Random());
 
-		} while ((pubKey.compareTo(PhiN) != 1) || (pubKey.gcd(PhiN).compareTo(BigInteger.valueOf(1)) != 0));
+		} while ((pubKey.compareTo(phi) != 1) || (pubKey.gcd(phi).compareTo(BigInteger.valueOf(1)) != 0));{
+			privKey = pubKey.modInverse(phi);
+		}
 
-		privKey = pubKey.modInverse(PhiN);
+		
 	}
 
 	public BigInteger getPrivKey() {
