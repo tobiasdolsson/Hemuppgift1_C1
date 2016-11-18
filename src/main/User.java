@@ -47,9 +47,9 @@ public class User {
 			}
 			
 			
-			vector[0] = a;
-			vector[1] = c;
-			vector[2] = d;
+			vector[0] = a+1;
+			vector[1] = c+1;
+			vector[2] = d+1;
 			vector[3] = rnbr.intValue();
 
 			rValues.add(rnbr.intValue());
@@ -109,16 +109,16 @@ public class User {
 
 			BigInteger random = BigInteger.valueOf(r);
 
-			BigInteger temp = random.pow(pubKey.intValue());
+			BigInteger temp = random.modPow(pubKey,n);
 
 			// System.out.println((rsa.multiply(fFunction(x, y))));
 			BigInteger fvalue = temp.multiply(fFunction(x, y));
 			fxy.add(fFunction(x, y));
 			
-			bigB = fvalue.mod(n);
+			//bigB = fvalue.mod(n);
 			// System.out.println(bigB.toString());
 			// System.out.println("----");
-			toBeSigned.add(bigB);
+			toBeSigned.add(fvalue);
 
 		}
 
@@ -149,7 +149,7 @@ public class User {
 		totalFxy = totalFxy.mod(n);
 		System.out.println("TotalFXY:" +totalFxy);
 		BigInteger extractedCoin = coin.multiply(totalValue).mod(n);
-		BigInteger product = extractedCoin.pow(pubKey.intValue()).mod(n);
+		BigInteger product = extractedCoin.modPow(pubKey,n);
 		System.out.println("f av x,y:"+product);
 		return extractedCoin;
 		

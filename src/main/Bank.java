@@ -45,12 +45,12 @@ public class Bank {
 			BigInteger y = hFunction((a ^ id), d);
 			BigInteger random = BigInteger.valueOf(r);
 
-			BigInteger rsa = random.pow(pubKey.intValue());
+			BigInteger rsa = random.modPow(pubKey,n);
 
 			BigInteger fvalue = rsa.multiply(fFunction(x, y));
-			BigInteger Bvalue = fvalue.mod(n);
+			//BigInteger Bvalue = fvalue.mod(n);
 
-			if (!Bvalue.equals(B)) {
+			if (!fvalue.equals(B)) {
 
 				return false;
 			}
@@ -80,7 +80,7 @@ public class Bank {
 			if (Bs.get(i) != null) {
 
 				rIndex.add(i);
-				BigInteger sig = (Bs.get(i).pow(privKey.intValue())).mod(n);
+				BigInteger sig = (Bs.get(i).modPow(privKey,n));
 
 				signature = ((signature.multiply(sig)));
 
